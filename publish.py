@@ -46,9 +46,9 @@ def parse_frontmatter(content: str):
             val = val.strip()
             # Parse simple scalars
             if val.startswith('"') and val.endswith('"'):
-                val = val[1:-1]
+                val = val[1:-1].replace('\\"', '"')
             elif val.startswith("'") and val.endswith("'"):
-                val = val[1:-1]
+                val = val[1:-1].replace("\\'", "'")
             elif val.lower() == "true":
                 val = True
             elif val.lower() == "false":
@@ -68,7 +68,7 @@ def dump_frontmatter(metadata: dict, body: str) -> str:
             items_str = ", ".join(f'"{item}"' for item in v)
             lines.append(f"{k}: [{items_str}]")
         else:
-            v_str = str(v).replace('"', '\\"')
+            v_str = str(v).replace('\\"', '"').replace('"', '\\"')
             lines.append(f'{k}: "{v_str}"')
     lines.append("---")
     lines.append("")
