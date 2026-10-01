@@ -13,7 +13,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent.resolve()
-DRAFTS_DIR = PROJECT_ROOT / "drafts"
+SIBLING_CONTENT = PROJECT_ROOT.parent / "see-ash-code-content" / "drafts"
+ENV_CONTENT = os.environ.get("BLOG_CONTENT_DIR")
+
+if ENV_CONTENT and Path(ENV_CONTENT).exists():
+    DRAFTS_DIR = Path(ENV_CONTENT).resolve()
+elif SIBLING_CONTENT.exists():
+    DRAFTS_DIR = SIBLING_CONTENT
+else:
+    DRAFTS_DIR = PROJECT_ROOT / "drafts"
+
 CONTENT_DIR = PROJECT_ROOT / "src" / "content" / "blog"
 IMAGES_SRC = DRAFTS_DIR / "images"
 IMAGES_DEST = PROJECT_ROOT / "public" / "images"
@@ -128,9 +137,15 @@ def ensure_tags_and_description(slug: str, meta: dict, body: str):
 def sync_drafts():
     CONTENT_DIR.mkdir(parents=True, exist_ok=True)
     IMAGES_DEST.mkdir(parents=True, exist_ok=True)
+
+    if IMAGES_SRC.exists():
+        for img in IMAGES_SRC.glob("*.*"):
+            dest = IMAGES_DEST / img.name
+            if not dest.exists() or img.stat().st_mtime > dest.stat().st_mtime:
+                shutil.copy2(img, dest)
     
     draft_files = list(DRAFTS_DIR.glob("*.md"))
-    print(f"Syncing {len(draft_files)} drafts from {DRAFTS_DIR.relative_to(PROJECT_ROOT)}...")
+    print(f"Syncing {len(draft_files)} drafts from {DRAFTS_DIR}...")
     
     for df in draft_files:
         content = df.read_text(encoding="utf-8")
@@ -257,7 +272,7 @@ def create_new_draft(title: str, auto_open: bool = True):
     body = f"\n\nWrite your markdown content for '{title}' here...\n"
     content = dump_frontmatter(meta, body)
     target.write_text(content, encoding="utf-8")
-    print(f"Created new draft: {target.relative_to(PROJECT_ROOT)}")
+    print(f"Created new draft: {target}")
 
     if auto_open:
         open_in_editor(target)
