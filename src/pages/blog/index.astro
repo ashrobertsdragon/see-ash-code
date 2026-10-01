@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPublishedPosts, getAllTags } from '../../utils/posts';
+
+const posts = await getPublishedPosts();
+const tags = await getAllTags();
+---
+
+<BaseLayout
+  title="Blog"
+  description="All articles and tutorials on Python development, architecture, testing, and accessibility by Ashlynn Antrobus."
+>
+  <div class="space-y-8">
+    <!-- Header -->
+    <div class="space-y-3 border-b border-border/60 pb-8">
+      <div class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-muted-foreground">
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <span class="text-foreground">Blog</span>
+      </div>
+      <h1 class="text-4xl font-extrabold tracking-tight text-foreground">Technical Articles</h1>
+      <p class="text-muted-foreground max-w-2xl text-base">
+        A collection of {posts.length} articles exploring real-world Python quirks, testing philosophies, codebase refactorings, and software accessibility.
+      </p>
+    </div>
+
+    <!-- Topic / Tags Filter Bar -->
+    {
+      tags.length > 0 && (
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground shrink-0 mr-1">
+            Topics:
+          </span>
+          <a
+            href="/blog"
+            class="px-3 py-1 rounded-full text-xs font-semibold bg-primary text-primary-foreground shrink-0 shadow-xs"
+          >
+            All ({posts.length})
+          </a>
+          {tags.map(({ tag, slug, count }) => (
+            <a
+              href={`/tags/${slug}`}
+              class="px-3 py-1 rounded-full text-xs font-medium border border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted shrink-0 transition-colors"
+            >
+              #{tag} ({count})
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    <!-- Posts Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+      {posts.map((post) => (
+        <PostCard post={post} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

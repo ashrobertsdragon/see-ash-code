@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPublishedPosts, getAllTags, slugifyTag } from '../../utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  const tags = await getAllTags();
+
+  return tags.map(({ tag, slug }) => {
+    const filteredPosts = posts.filter((post) =>
+      post.data.tags?.some((t) => slugifyTag(t) === slug)
+    );
+    return {
+      params: { tag: slug },
+      props: { tag, posts: filteredPosts },
+    };
+  });
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`Posts tagged #${tag}`}
+  description={`Articles tagged with #${tag} by Ashlynn Antrobus on See Ash Code.`}
+>
+  <div class="space-y-8">
+    <!-- Header -->
+    <div class="space-y-3 border-b border-border/60 pb-8">
+      <div class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-muted-foreground">
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a href="/blog" class="hover:underline">Blog</a>
+        <span>/</span>
+        <span class="text-foreground">Tags</span>
+      </div>
+      <h1 class="text-4xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
+        <span class="text-primary font-mono">#</span>{tag}
+      </h1>
+      <p class="text-muted-foreground max-w-2xl text-base">
+        Showing {posts.length} {posts.length === 1 ? 'article' : 'articles'} filed under this topic.
+      </p>
+    </div>
+
+    <!-- Articles Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+      {posts.map((post) => (
+        <PostCard post={post} />
+      ))}
+    </div>
+
+    <div class="pt-8">
+      <a href="/blog" class="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1">
+        &larr; View all articles
+      </a>
+    </div>
+  </div>
+</BaseLayout>

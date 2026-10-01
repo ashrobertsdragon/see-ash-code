@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const sortedProjects = projects.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Projects"
+  description="Open source projects, developer tools, and architectures designed and built by Ashlynn Antrobus."
+>
+  <div class="space-y-8">
+    <!-- Header -->
+    <div class="space-y-3 border-b border-border/60 pb-8">
+      <div class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-muted-foreground">
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <span class="text-foreground">Projects</span>
+      </div>
+      <h1 class="text-4xl font-extrabold tracking-tight text-foreground">Featured Projects</h1>
+      <p class="text-muted-foreground max-w-2xl text-base">
+        A curated selection of software systems, author platforms, and developer tooling I have engineered, tested, and maintained.
+      </p>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+      {sortedProjects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

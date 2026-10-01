@@ -1,0 +1,25 @@
+# Drafts (local working drafts)
+drafts/
+
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS and Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/

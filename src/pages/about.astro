@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUTHOR_NAME, SITE_TITLE, SOCIAL_LINKS } from '../consts';
+---
+
+<BaseLayout
+  title="About Ashlynn Antrobus"
+  description="Background, software engineering journey, writing, and neurodiversity advocacy by Ashlynn Antrobus."
+>
+  <div class="max-w-3xl mx-auto space-y-12">
+    <!-- Header -->
+    <div class="space-y-4 border-b border-border/60 pb-8">
+      <div class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-muted-foreground">
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <span class="text-foreground">About</span>
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground">
+        About {AUTHOR_NAME}
+      </h1>
+      <p class="text-xl text-muted-foreground leading-relaxed">
+        Software developer, writer, and creator behind <strong class="text-foreground">{SITE_TITLE}</strong>.
+      </p>
+    </div>
+
+    <!-- Main Narrative -->
+    <div class="prose dark:prose-invert max-w-none space-y-6">
+      <section class="space-y-4">
+        <h2>Engineering & Code</h2>
+        <p>
+          I build software primarily in <strong>Python</strong> and <strong>TypeScript</strong>, with a strong focus on domain modeling, developer ergonomics, and rock-solid test harnesses. My philosophy on code has evolved from early procedural scripts into decoupled, test-driven systems where unit testing serves as a sensitive indicator of software architecture quality.
+        </p>
+        <p>
+          I am a strong advocate for modern DevOps tooling—static analysis with tools like <code>uv</code>, <code>pytest</code>, <code>ruff</code>, and <code>mypy</code>, automated CI pipelines, and strict type annotations that turn runtime ambiguity into compile-time certainty.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2>Coding with Dyslexia & Accessibility</h2>
+        <p>
+          I was diagnosed with dyslexia in my mid-thirties—what is known as "stealth" or "mild" dyslexia. Discovering this transformed how I approach my development environment and workflows.
+        </p>
+        <p>
+          Visual text distortion, letter crowding, and tracking fatigue are real challenges for neurodivergent developers. Through deliberate tuning of typography (like <em>OpenDyslexic</em>, tuned line heights, and letter spacing) and high-contrast color themes (such as <em>Frantic Contrast</em>), I have built workflows that make programming joyful and sustainable. I write openly about these strategies to help other developers navigate neurodiversity in technology.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2>The Author Hat & LoreBinders</h2>
+        <p>
+          Beyond writing code, I am an indie author with multiple published titles across different pen names. Balancing extensive worldbuilding, character relationship webs, and complex chapter outlines highlighted a deep gap in software for serious storytellers.
+        </p>
+        <p>
+          That friction inspired <strong>LoreBinders</strong> and the wider <strong>ProsePal</strong> ecosystem: software tailored for authors that combines structured data management with AI context grounding, turning sprawling fictional universes into cohesive creative workflows.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2>Core Principles</h2>
+        <ul>
+          <li><strong>Unit testing difficulty is an architectural signal:</strong> When tests are agonizingly difficult to write, your code is telling you it is tightly coupled.</li>
+          <li><strong>Invest early in toolchains:</strong> Reliable linters, formatting, and type-checkers free your mind to solve actual problems.</li>
+          <li><strong>Know when to ask for help:</strong> Pushing through roadblocks is admirable; spending days stuck on a tool setting without asking is avoidable.</li>
+        </ul>
+      </section>
+
+      <!-- Connect Section -->
+      <section class="pt-6 border-t border-border/80">
+        <h2>Connect & Follow</h2>
+        <p>
+          You can follow along with my work, read my latest posts, or explore my open-source repositories:
+        </p>
+        <div class="flex flex-wrap items-center gap-4 pt-2 not-prose">
+          <a
+            href={SOCIAL_LINKS.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-muted hover:bg-primary hover:text-primary-foreground text-foreground transition-colors"
+          >
+            GitHub
+          </a>
+          <a
+            href={SOCIAL_LINKS.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-muted hover:bg-primary hover:text-primary-foreground text-foreground transition-colors"
+          >
+            LinkedIn
+          </a>
+          <a
+            href="/rss.xml"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 transition-colors"
+          >
+            RSS Feed
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
